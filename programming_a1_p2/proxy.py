@@ -75,9 +75,11 @@ def connectSocket(domain, serverPort):
 def checkCache(filename, path, domain, serverPort):
 
     body, responseLine, header = None, None , None
-
+    lock = threading.Lock()
     # Check if the request exists in cache
+    lock.acquire()
     if os.path.exists("."+filename) and not os.path.isdir("."+filename):
+        lock.release()
         
         print("Thread: " + str(threading.current_thread().getName()) +\
               "\nReceiving from cache\n\n")
@@ -90,18 +92,19 @@ def checkCache(filename, path, domain, serverPort):
             body = f.read()
     
     else:
+        lock.release()
         
         serverSocket = connectSocket(domain, serverPort)
         if serverSocket:
             sendToServer(serverSocket, path, domain)
             body, responseLine, header = receiveFromServer(serverSocket)
             serverSocket.close()
-        
-            if responseLine.split(" ".encode())[1] == "200".encode():
 
+            if responseLine.split(" ".encode())[1] == "200".encode():
+                
                 print("Thread: " + str(threading.current_thread().getName()) +\
                       "\nCaching file\n\n")
-
+                lock.acquire()
                 try:
                     os.makedirs("."+'/'.join(filename.split('/')[:-1]))
                 except:
@@ -111,6 +114,8 @@ def checkCache(filename, path, domain, serverPort):
                     curr_time = time.localtime()
                     f.write(time.strftime('%m-%d-%Y %H:%M:%S GMT', curr_time).encode() + "\r\n".encode())
                     f.write(body)
+                lock.release()
+                
 
     return body, responseLine, header
 
