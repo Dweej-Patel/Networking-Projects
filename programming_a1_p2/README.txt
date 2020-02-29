@@ -16,7 +16,8 @@ My implementation of the proxy server:
     
     Caching files: Cache files to the working directory where your proxy code is. If the file has
                    been cached just send the cached file to the client. If the file is not cached then
-                   send a request to the server and cache the received body if code is 200.
+                   send a request to the server and cache the received body if code is 200. Time stamp is
+                   always appended to front of cached files.
 
     Side note: I will continuously check readability and if readable we will continue with processing for 
                receiving from the server or client. I also implemented a timer mechanism where if not readable 
