@@ -11,6 +11,9 @@ import time
 import threading
 from datetime import datetime
 
+# Wait time for readability
+WTIME = 60
+
 # buffer size
 BUFF_SIZE = 1024
 FAVICON = "favicon.ico"
@@ -37,7 +40,7 @@ def receiveFromServer(serverSocket):
         ts = time.time()
 
         # Try checking if readable until time limit or if readable just move on
-        while not readable and (time.time() - ts) < 2:
+        while not readable and (time.time() - ts) < WTIME:
             readable, _, _ = select(input_serv, [], [], 0)
         
         if readable:
@@ -127,7 +130,7 @@ def workmythread(clientSocket, clientAddr, proxy_port):
         ts = time.time()
         
         # Try checking if readable until time limit or if readable just move on
-        while not readable and (time.time() - ts) < 1:
+        while not readable and (time.time() - ts) < WTIME:
             readable, _, _ = select([clientSocket], [], [], 0)
 
         if readable:

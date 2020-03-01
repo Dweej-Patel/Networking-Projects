@@ -30,6 +30,12 @@ Running the code:
                     one thread is writing and another thread is concurrently trying to check if 
                     the file exists. Please check the output in the terminal that will indicate the 
                     current processes and associated threads.
+    
+    Note: For testing multithreading I connected to my localhost using netcat and was able to connect 
+          multiple clients at the same time. This was useful for also testing the timeout mechanism I 
+          implemented. If the netcat client remains unactive for a minute the thread will be terminated.
+          I have declared a variable called WTIME at the beginning that specifies the time to wait for
+          readability. You can modify the value of WTIME to change wait time in terms of seconds.
 
 --------------------------------------------------------------------------------------------------------
 
