@@ -2,6 +2,37 @@ Dweej Patel
 UNI: dp3039
 Part 2 of Programming Assignment 1
 
+
+Running the code:
+		  All you need to run the code is type in "python proxy.py" or "python3 proxy.py". 
+		  Note: The default port number is 8080 and address is localhost.
+			If however you want to change the port number of the proxy you simply
+			need to specify the port in the argument when running the code. 
+			Ex: "python proxy.py 8081"
+			Also if you need to restart the proxy I have included some code that will
+			allow you to use the same proxy every time without any waiting.
+
+------------------------------------------------------------------------------------------------------
+**EXTRA CREDIT** 
+
+    Implemented both the favicon.ico and multithreading.
+
+    favicon.ico: Maintained a queue to store domains associated with index.html file.
+                 When a favicon.ico is encountered pop the domain from the queue and
+                 request the favicon.ico file from the popped domain.
+
+    Multithreading: Used the threading module that comes with python. Every time a client
+                    is accepted I create a new thread to process that client. (I print to 
+                    the terminal when a new thread is created and when a thread ends.) The 
+                    new thread is called on the workmythread function I implemented so 
+                    that all client processes are controlled by the function. I also implemented
+                    thread locking for writing files to cache. I will lock threads when 
+                    one thread is writing and another thread is concurrently trying to check if 
+                    the file exists. Please check the output in the terminal that will indicate the 
+                    current processes and associated threads.
+
+--------------------------------------------------------------------------------------------------------
+
 My implementation of the proxy server:
 
     It is a simple proxy that reroutes requests appended to URL.
@@ -19,24 +50,7 @@ My implementation of the proxy server:
                    send a request to the server and cache the received body if code is 200. Time stamp is
                    always appended to front of cached files.
 
-    Side note: I will continuously check readability and if readable we will continue with processing for 
-               receiving from the server or client. I also implemented a timer mechanism where if not readable 
-               in allocated time I will just move on to processing.
+    Side note: I will continuously check readability and if readable I will continue with processing for 
+               receiving information the server or client. I also implemented a timer mechanism where if
+	       not readable in allocated time I will just move on to processing.
     
-**EXTRA CREDIT** 
-
-    Implemented both the favicon.ico and multithreading.
-
-    favicon.ico: Maintained a queue to store domains associated with index.html file.
-                 When a favicon.ico is encountered pop the domain from the queue and
-                 request the favicon.ico file from the popped domain.
-
-    Multithreading: Used the threading module that comes with python. Every time a client
-                    is accepted to create a new thread to process that client. (I print to 
-                    the terminal when a new thread is created and when a thread ends.) The 
-                    new thread is called on the workmythread function I implemented so 
-                    that all client processes are controlled by the function. I also implemented
-                    thread locking for writing files to cache. I will lock threads when 
-                    one thread is writing and another thread is concurrently trying to check if 
-                    the file exists. Please check the output in the terminal that will indicate the 
-                    current processes and associated threads.
